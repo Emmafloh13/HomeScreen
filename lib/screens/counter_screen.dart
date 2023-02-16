@@ -9,6 +9,19 @@ class CounterScreen extends StatefulWidget {
 
 class _CounterScreenState extends State<CounterScreen> {
   int contador = 0;
+
+  void incrementar(){
+    contador++;
+    setState(() {});
+  }
+  void decrementar(){
+    contador --;
+    setState(() {});
+  }
+  void reiniciar (){
+    contador = 0;
+    setState(() {});
+  }
 @override
 Widget build(BuildContext context){
   const TextStyle estiloTexto = TextStyle(
@@ -36,28 +49,47 @@ Widget build(BuildContext context){
         ],
       ),),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            backgroundColor: const Color.fromARGB(159, 83, 206, 85),
-            foregroundColor: const Color.fromARGB(212, 231, 236, 231),
-            onPressed:()=> setState(() => contador--),
-            child: const Icon(Icons.exposure_minus_1),
-  ),
-          FloatingActionButton(
-            backgroundColor: const Color.fromARGB(159, 83, 206, 85),
-            foregroundColor: const Color.fromARGB(212, 231, 236, 231),
-            onPressed:() => setState(() => contador = 0),
-            child: const Icon(Icons.restart_alt),
-  ),
-          FloatingActionButton(
-              backgroundColor: const Color.fromARGB(159, 83, 206, 85),
-              foregroundColor: const Color.fromARGB(212, 231, 236, 231),
-              onPressed: () => setState(() => contador++),
-              child: const Icon(Icons.exposure_plus_1),
-            ),
-        ],
+      floatingActionButton: CustomFloatingActionButton(
+        decrease: decrementar, 
+        increase: incrementar, 
+        reset: reiniciar,
       ));
 }
+}
+
+class CustomFloatingActionButton extends StatelessWidget {
+  final Function increase;
+  final Function decrease;
+  final Function reset;
+
+  const CustomFloatingActionButton({
+    super.key, required this.increase, required this.decrease, required this.reset,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FloatingActionButton(
+          backgroundColor: const Color.fromARGB(159, 83, 206, 85),
+          foregroundColor: const Color.fromARGB(212, 231, 236, 231),
+          onPressed:() => decrease (),
+          child: const Icon(Icons.exposure_minus_1),
+  ),
+        FloatingActionButton(
+          backgroundColor: const Color.fromARGB(159, 83, 206, 85),
+          foregroundColor: const Color.fromARGB(212, 231, 236, 231),
+          onPressed:() => reset (),
+          child: const Icon(Icons.restart_alt),
+  ),
+        FloatingActionButton(
+            backgroundColor: const Color.fromARGB(159, 83, 206, 85),
+            foregroundColor: const Color.fromARGB(212, 231, 236, 231),
+            onPressed:() => increase (),
+            child: const Icon(Icons.exposure_plus_1),
+          ),
+      ],
+    );
+  }
 }
